@@ -15,7 +15,7 @@ def home(request):
 def user_logout(request):
     messages.success(request, "You have been logged out!")
     logout(request)
-    return redirect("post_list")
+    return redirect("blog:list")
 
 
 # def register(request):
@@ -46,7 +46,7 @@ def register(request):
         if form_user.is_valid():
             user = form_user.save()
             login(request, user)
-            return redirect("home")
+            return redirect("blog:list")
 
     return render(request, 'users/register.html', {'form_user' : form_user})
 
@@ -57,7 +57,7 @@ def user_login(request):
     if form.is_valid():
         user = form.get_user()
         login(request, user)
-        return redirect("post_list")
+        return redirect("blog:list")
 
     return render(request, "users/user_login.html", {'form' : form})
 
@@ -75,7 +75,7 @@ def profile(request):
             profile.user = user
             profile.save()
             login(request, user)
-            return redirect("post_list")
+            return redirect("blog:list")
 
     context = {
         'form_profile' : form_profile,
