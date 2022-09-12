@@ -1,4 +1,3 @@
-from tabnanny import verbose
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -8,7 +7,6 @@ def user_directory_path(instance, filename):
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
-
     class Meta:
         verbose_name_plural = "Categories"
 
@@ -35,6 +33,17 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    def comment_count(self):
+        return self.comment_set.all().count()
+
+    def view_count(self):
+        return self.postview_set.all().count()
+    
+    def like_count(self):
+        return self.like_set.all().count()
+    
+    def comments(self):
+        return self.comment_set.all()
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

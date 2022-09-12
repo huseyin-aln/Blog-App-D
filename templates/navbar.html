@@ -1,69 +1,28 @@
-{% load static %} {% load static %}
-
-<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-primary">
-  <button
-    class="navbar-toggler navbar-toggler-right"
-    type="button"
-    data-toggle="collapse"
-    data-target="#navbarCollapse"
-    aria-controls="navbarCollapse"
-    aria-expanded="false"
-    aria-label="Toggle navigation"
-  >
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand fs-1" href="{% url 'post_list'  %}">
-    {% comment %} <img src="{% static 'users/images/cw_logo.jpg' %}" alt="CLARUSWAY_LOGO" /> {% endcomment %}
-    h-aln Blog</a>
-
-  <div class="collapse navbar-collapse" id="navbarCollapse">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        {% comment %} {% url 'students' %} {% endcomment %}
-        <a class="nav-link" href="{% url 'post_list' %}">Home</a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="">About</a>
-      </li>
-    </ul>
-
-    <ul class="navbar-nav ml-auto">
-      {% if request.user.is_authenticated %} 
-      {% if request.user.is_superuser %}
-
-      <li class="nav-item active">
-        <a class="nav-link" href="/admin">Admin</a>
-      </li>
-      {% endif %}
-
-      <li class="nav-item active">
-        {% comment %} {% url 'logout' %} {% endcomment %}
-        <a class="nav-link" href="{% url 'user_logout' %}">Log Out</a>
-      </li>
-
-      <li class="nav-item active">
-        {% comment %} {% url 'logout' %} {% endcomment %}
-        <a class="nav-link" href="{% url 'profile' %}">Profile</a>
-      </li>
-
-      <li class="nav-item active">
-        {% comment %} {% url 'logout' %} {% endcomment %}
-        <a class="nav-link" href="{% url 'post_create' %}">New Post</a>
-      </li>
-
-      {% else %}
-
-      <li class="nav-item active">
-        {% comment %} {% url 'user_login' %} {% endcomment %}
-        <a class="nav-link" href="{% url 'user_login' %}">Log In</a>
-      </li>
-      
-      <li class="nav-item active">
-        {% comment %} {% url 'register' %} {% endcomment %}
-        <a class="nav-link" href="{% url 'register' %}">Register</a>
-
-        {% endif %}
-      </li>
-    </ul>
-  </div>
-</nav>
+<header class="site-header">
+  <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+      <div class="container">
+          <a class="navbar-brand mr-4" href="{% url 'blog:list' %}">h-aln Blog</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
+              aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+              <div class="navbar-nav mr-auto">
+                  <a class="nav-item nav-link" href="{% url 'blog:list' %}">Home</a>
+                  <a class="nav-item nav-link" href="#">About</a>
+              </div>
+              <!-- Navbar Right Side -->
+              <div class="navbar-nav">
+                  {% if user.is_authenticated %}
+                  <a class="nav-item nav-link" href="#">Logout</a>
+                  <a class="nav-item nav-link" href="#">Profile</a>
+                  <a class="nav-item nav-link" href="{% url 'blog:create' %}">New Post</a>
+                  {% else %}
+                  <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                  <a class="nav-item nav-link" href="#">Register</a>
+                  {% endif %}
+              </div>
+          </div>
+      </div>
+  </nav>
+</header>
