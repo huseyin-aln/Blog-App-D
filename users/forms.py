@@ -8,12 +8,13 @@ class UserForm(UserCreationForm):
     class Meta():
         model = User
         fields = ('username', 'email')
+        
 
 
 class UserProfileForm(forms.ModelForm):
     class Meta():
         model = UserProfile
-        # fields = '__all__'
-        exclude = ('user', )  # tuples get commas
+        # fields = ('image','bio')
+        exclude = ('user', 'password1', )  # tuples get commas
 
 

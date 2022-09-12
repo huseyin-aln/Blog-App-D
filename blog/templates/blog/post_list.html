@@ -1,0 +1,31 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+<h1 class="text-center">h-aln Blog</h1>
+
+{% for post in posts %}
+  <div class="card" style="width: 18rem;">
+      <img src="..." class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title"><a href="#" class="text-primary">{{post.title}}</a></h5>
+        <p class="card-text">{{post.author}}</p>
+        <div class="icon-group">
+          <i class="fa-regular fa-message"></i>
+          <i class="fa-solid fa-eye"></i>
+          <i class="fa-regular fa-heart"></i>
+      </div>
+      <p>Posted 10 months, 2 weeks ago.</p>
+      </div>
+  </div>
+
+{% endfor %}
+
+
+
+</div>
+
+
+{% endblock content %}

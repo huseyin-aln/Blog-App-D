@@ -1,0 +1,44 @@
+{% extends 'base.html' %} 
+
+{% block content %} 
+
+{% load crispy_forms_tags %}
+
+
+    
+
+    {% if request.user.is_authenticated %}
+
+    <div class="my-5">
+        <i class="fa-solid fa-user fa-5x"></i>
+        <span class="mx-3 fs-1">{{request.user}}</span>
+    </div>
+        
+
+    {% else %}
+
+        <p>Guest!</p>
+    
+    {% endif %} 
+
+
+<h2>Profile</h2>
+
+
+  <form action="" method="post" enctype="multipart/form-data">
+
+        {% csrf_token %} 
+        {{ form_user | crispy }} 
+        {{ form_profile | crispy }}
+
+        <button type="submit" class="btn btn-outline-primary">Update</button>
+        
+    </form>
+{% comment %} {% if request.user.is_authenticated %}
+
+{% else %}
+
+
+{% endif %}  {% endcomment %}
+
+{% endblock content %}

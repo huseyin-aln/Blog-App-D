@@ -1,10 +1,10 @@
-{% extends 'users/base.html' %} 
+{% extends 'base.html' %} 
 
 {% block content %} 
 
 {% load crispy_forms_tags %}
 
-<h2>Registration Form</h2>
+<h2>Join Today</h2>
 
 {% if request.user.is_authenticated %}
 
@@ -12,7 +12,6 @@
 
 {% else %}
 
-    <h3>Fill out the form please!</h3>
 
     <form action="" method="post" enctype="multipart/form-data">
 
@@ -20,7 +19,11 @@
         {{ form_user | crispy }} 
         {{ form_profile | crispy }}
 
-        <button type="submit" class="btn btn-danger">Register</button>
+        <button type="submit" class="btn btn-outline-primary">Register</button>
+        <div class="mt-4">
+            <span >Already have an account?</span>
+            <a class="ml-3" href="{% url 'register' %}">Sign In</a>
+        </div>
     </form>
 
 {% endif %} 
