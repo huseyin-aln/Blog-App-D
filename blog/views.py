@@ -5,11 +5,9 @@ from django.contrib import messages
 # Create your views here.
 
 def post_list(request):
-    posts = Post.objects.all()
-    form = PostForm()
+    qs = Post.objects.filter(status='p')
     context = {
-        "posts" : posts,
-        "form" : form
+        "object_list" : qs,
     }
     return render(request, "blog/post_list.html", context)
 
@@ -18,13 +16,38 @@ def post_create(request):
     form = PostForm()
     
     if request.method == "POST":
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
             messages.success(request,"Todo created successfully")
-            return redirect("blog/post_list.html")
+            return redirect("blog:list")
     
     context = {
         "form" : form
     }
     return render(request, "blog/post_create.html", context)
+
+
+
+def post_detail(request, slug):
+    obj = get_object_or_404(Post, slug=slug)
+    context = {
+        "object" : obj
+    }
+    return render(request, "blog/post_detail.html", context)
+
+
+def post_update(request, slug):
+    obj = get_object_or_404(Post, slug=slug)
+    form = PostForm(request.POST or None, request.FILES or None, instance=obj)
+    if form.is_valid():
+        form.save()
+        return redirect("blog:list")
+    
+    context = {
+        "object" : obj,
+        "form" : form
+    }
+    return render(request, "blog/post_update.html", context)

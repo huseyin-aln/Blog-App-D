@@ -6,12 +6,14 @@
 
 <h1 class="text-center">h-aln Blog</h1>
 
-{% for post in posts %}
+{% for object in object_lists %}
+
   <div class="card" style="width: 18rem;">
-      <img src="..." class="card-img-top" alt="...">
+      <img src="{{ object.image.url }}" class="card-img-top" alt="...">
       <div class="card-body">
-        <h5 class="card-title"><a href="#" class="text-primary">{{post.title}}</a></h5>
-        <p class="card-text">{{post.author}}</p>
+        <h5 class="card-title"><a href="#" class="text-primary">{{object.title}}</a></h5>
+        <p class="card-text">{{object.author}}</p>
+        <p> {{object.content | truncatechars:20}} </p>
         <div class="icon-group">
           <i class="fa-regular fa-message"></i>
           <i class="fa-solid fa-eye"></i>

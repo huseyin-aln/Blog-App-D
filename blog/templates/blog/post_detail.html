@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block blockcontent %}
+
+<div class="card" style="width: 18rem;">
+    <img src="{{ object.image.url }}" class="card-img-top" alt="...">
+    <div class="card-body">
+        <a href="{% url 'blog:detail' object.slug %}" class="text-primary">{{object.title}}
+            <h5 class="card-title"></h5>
+        </a>
+      <p class="card-text">{{object.author}}</p>
+      <p> {{object.content | truncatechars:20}} </p>
+      <div class="icon-group">
+        <i class="fa-regular fa-message"></i>
+        <i class="fa-solid fa-eye"></i>
+        <i class="fa-regular fa-heart"></i>
+    </div>
+    <p>Posted 10 months, 2 weeks ago.</p>
+    </div>
+</div>
+
+    
+{% endblock content %}
+    
