@@ -1,44 +1,24 @@
-{% extends 'base.html' %} 
-
-{% block content %} 
-
+{% extends "base.html" %}
 {% load crispy_forms_tags %}
-
-
-    
-
-    {% if request.user.is_authenticated %}
-
-    <div class="my-5">
-        <i class="fa-solid fa-user fa-5x"></i>
-        <span class="mx-3 fs-1">{{request.user}}</span>
+{% block content %}
+<div class="content-section">
+    <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+        <div class="media-body">
+            <h2 class="account-heading">{{ user.username }}</h2>
+            <p class="text-secondary">{{ user.email }}</p>
+        </div>
     </div>
-        
-
-    {% else %}
-
-        <p>Guest!</p>
-    
-    {% endif %} 
-
-
-<h2>Profile</h2>
-
-
-  <form action="" method="post" enctype="multipart/form-data">
-
-        {% csrf_token %} 
-        {{ form_user | crispy }} 
-        {{ form_profile | crispy }}
-
-        <button type="submit" class="btn btn-outline-primary">Update</button>
-        
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Profile</legend>
+            {{ u_form|crispy }}
+            {{ p_form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Update</button>
+        </div>
     </form>
-{% comment %} {% if request.user.is_authenticated %}
-
-{% else %}
-
-
-{% endif %}  {% endcomment %}
-
+</div>
 {% endblock content %}

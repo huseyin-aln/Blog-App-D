@@ -1,84 +1,35 @@
-from django.shortcuts import render, redirect, HttpResponse
-from django.contrib.auth import logout, login
+from django.shortcuts import render, redirect
+from .forms import RegistrationForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib import messages
-from users.forms import UserProfileForm, UserForm
-from django.contrib.auth.forms import AuthenticationForm
-
-
-
-# Create your views here.
-
-def home(request):
-    return render(request, 'blog/post_list.html')
-
-
-def user_logout(request):
-    messages.success(request, "You have been logged out!")
-    logout(request)
-    return redirect("blog:list")
-
-
-# def register(request):
-#     form_user = UserForm()
-#     form_profile = UserProfileForm()
-#     if request.method == 'POST':
-#         form_user = UserForm(request.POST)
-#         form_profile = UserProfileForm(request.POST, request.FILES)
-#         if form_user.is_valid() and form_profile.is_valid():
-#             user = form_user.save()
-#             # form_profile.save()
-#             profile = form_profile.save(commit=False)
-#             profile.user = user
-#             profile.save()
-#             login(request, user)
-#             return redirect("home")
-
-#     context = {
-#         'form_profile' : form_profile,
-#         'form_user' : form_user
-#     }
-#     return render(request, 'users/register.html', context)
 
 def register(request):
-    form_user = UserForm()
-    if request.method == 'POST':
-        form_user = UserForm(request.POST)
-        if form_user.is_valid():
-            user = form_user.save()
-            login(request, user)
-            return redirect("blog:list")
-
-    return render(request, 'users/register.html', {'form_user' : form_user})
-
-
-
-def user_login(request):
-    form = AuthenticationForm(request, data=request.POST)
-    if form.is_valid():
-        user = form.get_user()
-        login(request, user)
+    form = RegistrationForm(request.POST or None) 
+    if request.user.is_authenticated:
+        messages.warning(request, "You are already have an account!")
         return redirect("blog:list")
-
-    return render(request, "users/user_login.html", {'form' : form})
-
+    if form.is_valid():
+        form.save()
+        name = form.cleaned_data["username"]
+        messages.success(request, f"Account created for {name}")
+        return redirect("login")  
+                
+    context = {
+        "form" : form
+    }
+    return render(request, "users/register.html", context)
 
 def profile(request):
-    form_user = UserForm()
-    form_profile = UserProfileForm()
-    if request.method == 'POST':
-        form_user = UserForm(request.POST)
-        form_profile = UserProfileForm(request.POST, request.FILES)
-        if form_user.is_valid() and form_profile.is_valid():
-            user = form_user.save()
-            # form_profile.save()
-            profile = form_profile.save(commit=False)
-            profile.user = user
-            profile.save()
-            login(request, user)
-            return redirect("blog:list")
-
+    u_form = UserUpdateForm(request.POST or None, instance=request.user)
+    p_form = ProfileUpdateForm(request.POST or None, instance=request.user.profile, files=request.FILES)
+    
+    if u_form.is_valid() and p_form.is_valid():
+        u_form.save()
+        p_form.save()
+        messages.success(request, "Your profile has been updated!")
+        return redirect(request.path)
+    
     context = {
-        'form_profile' : form_profile,
-        'form_user' : form_user
+        "u_form" : u_form,
+        "p_form" : p_form    
     }
-    return render(request, 'users/profile.html', context)
+    return render(request, "users/profile.html", context)
