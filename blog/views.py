@@ -101,4 +101,3 @@ def like(request, slug):
             Like.objects.create(user=request.user, post=obj)
         return redirect("blog:detail", slug=slug)
     return redirect("blog:detail", slug=slug)
- 

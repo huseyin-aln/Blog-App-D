@@ -4,7 +4,6 @@ from django.template.defaultfilters import slugify
 from .models import Post
 from .utils import get_random_code
 
-
 @receiver(pre_save, sender=Post)
 def pre_save_create_slug(sender, instance, **kwargs):
     if not instance.slug:
